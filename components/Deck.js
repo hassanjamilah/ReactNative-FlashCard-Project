@@ -12,17 +12,27 @@ componentDidMount(){
        
         this.props.dispatch(receiveDecks(data))
 
-        this.props.dispatch(addDeck('New Deck1'))
-         //this.props.dispatch(addQuestion('q105', 'a106', 'hassan47'))
-         this.props.dispatch(toggleAnswer('q1', 'correct', 'hassan47'))
+        // this.props.dispatch(addDeck('New Deck1'))
+        //  //this.props.dispatch(addQuestion('q105', 'a106', 'hassan47'))
+        //  this.props.dispatch(toggleAnswer('q1', 'correct', 'hassan47'))
     })
 }
     render(){
-       console.log('Properties in Deck:', this.props.state)
+       console.log('state in Deck:', this.props.state)
+       const keys = Object.keys(this.props.state)
+       console.log('state keys in Deck:', keys)
 
         return (
             <View>
-                <Text>Hello</Text>
+                {
+                   
+                    keys.map((key)=>(
+                        <View>
+                        <Text>{this.props.state[key].title}</Text>
+                        <Text>{(Object.keys(this.props.state[key].questions)).length}</Text>
+                        </View>
+                    ))
+                }
             </View>
         )
     }
