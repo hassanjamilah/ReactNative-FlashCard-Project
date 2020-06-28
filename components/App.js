@@ -24,7 +24,7 @@ export default class App extends React.Component {
 
     //getDeck('hassan45').then((data)=>console.log(data))
 
-    //saveDeck('hassan57')
+    //saveDeck('hassan47')  
     //removeAllDecks();saveDeck('hassan47')
     getAllDecks().then((data) => { console.log('all data: ', data) })
     
@@ -37,7 +37,7 @@ export default class App extends React.Component {
           ))
         } */}
           <StatusBar style="auto" />
-         <Deck/>
+        <Deck/>
 
         </View>
         </Provider>
