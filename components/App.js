@@ -1,17 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import reducer from '../reducers'
+import { saveDeck, removeAllDecks, getAllDecks, getDeck , saveQuestion} from '../api/api'
 
+export default class App extends React.Component {
+   
+   
+   
+  render() {
+   saveQuestion('q7','a7','hassan47').then(
+     getAllDecks().then((data)=>{console.log('all data: ' , data)})
+   )
+    //saveQuestion('q7','a7','hassan47')
+  
+  
+    //getDeck('hassan45').then((data)=>console.log(data))
+    
+    //saveDeck('hassan47')
+    //removeAllDecks();saveDeck('hassan47')
+    //getAllDecks().then((data)=>{console.log('all data: ' , data)})
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+      <View style={styles.container}>
+        {/* {
+          keys.map((key)=>(
+            <Text></Text>
+          ))
+        } */}
+        <StatusBar style="auto" />
+
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
