@@ -3,16 +3,20 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux'
 import reducer from '../reducers'
-import { saveDeck, removeAllDecks, getAllDecks, getDeck , saveQuestion} from '../api/api'
+import { saveDeck, removeAllDecks, getAllDecks, getDeck , saveQuestion, saveQuestionAnswer, ANSWER_CORRECT, ANSWER_WRONG} from '../api/api'
 
 export default class App extends React.Component {
    
    
    
   render() {
-   saveQuestion('q7','a7','hassan47').then(
-     getAllDecks().then((data)=>{console.log('all data: ' , data)})
-   )
+    //saveQuestionAnswer('q3',ANSWER_WRONG,'hassan47')
+
+   //saveQuestion('q7','a7','hassan47')
+   //saveQuestion('q1','a1','hassan47')
+   //saveQuestion('q3','a3','hassan47')
+
+
     //saveQuestion('q7','a7','hassan47')
   
   
@@ -20,7 +24,7 @@ export default class App extends React.Component {
     
     //saveDeck('hassan47')
     //removeAllDecks();saveDeck('hassan47')
-    //getAllDecks().then((data)=>{console.log('all data: ' , data)})
+    getAllDecks().then((data)=>{console.log('all data: ' , data)})
 
     return (
       <View style={styles.container}>

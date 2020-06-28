@@ -44,7 +44,43 @@ export function saveQuestion (questionText, questionAnswer, deckID){
 
 }
 
-export function saveQuestionAnswer(questionID, answer){
+export function saveQuestionAnswer(questionText, answer, deckID){
+
+
+ // removeAllDecks();saveDeck('hassan47')
+ return AsyncStorage.getItem(STORAGE_KEY)
+ .then((results)=>{
+     const data = JSON.parse(results)
+     // const newQ =  JSON.stringify( data[deckID].questions.concat([q]))
+     // console.log('questions:', newQ)
+   
+     const questions = data[deckID].questions
+     const keys = Object.keys(questions)
+
+     console.log(questions)
+     console.log(keys)
+     var n = []
+     keys.map((k)=>{
+         const question = questions[k]
+         if (question.question === questionText){
+             question.answered = answer
+         }
+         n.push(question)
+     })
+     console.log(n)
+     const newQ = [...n]
+     console.log(newQ)
+
+     data[deckID]={
+         ...data[deckID],
+         questions:{
+             ...newQ
+             
+         }
+     }
+     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    
+ })
 
 }
 
