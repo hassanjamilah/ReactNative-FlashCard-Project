@@ -15,14 +15,12 @@ export function addQuestion(questionText, answerText, deckName){
 }
 
 export function toggleAnswer(questionText, answer, deckName){
-    const question = {
-        question: questionText,
-        answer:answerText
-    }
+  
     return {
         type:TOGGLE_ANSWER,
-       question,
-        deckName
+       questionText,
+        deckName,
+        answer
     }
 }
 

@@ -13,51 +13,76 @@ function decks(state = {}, action) {
         case ADD_DECK:
             const title = action.deckTitle
             const deck = {
-                
-                    title:title,
-                    questions:[]
-                
+
+                title: title,
+                questions: []
+
             }
-            
+
             return {
                 ...state,
-                [title]:deck,
+                [title]: deck,
             }
 
 
         case ADD_QUESTION:
             const question = action.question
-            console.log('the question is : ' , question )
+            var deckName = action.deckName
+            console.log('the question is : ', question)
 
+            var qq = state[deckName].questions
+            var keys = Object.keys(qq)
+            var newa = []
+            keys.map((key) => {
+                newa.push(qq[key])
+            })
+            newa.push(question)
+            console.log('the new questions ', newa)
             return {
-                // ...state,
-                // [action.deckName]:{
-                //     ...[action.deckName],
-                //     questions:{
-                //         ...[action.deckName].questions,
-                //        question
-                //     }
-                // }
                 ...state,
-               
-                // [action.deckName]:{
-                //     ...[action.deckName],
-                //     title:'hassan15'
-                // }
-                
-            }            
+                [deckName]: {
+                    title: [deckName],
+                    questions: {
+                        ...newa
+                    }
+                }
+
+            }
+
+        case TOGGLE_ANSWER:
+            const {questionText, answer} = action 
+            deckName = action.deckName
+            console.log('the question is : ', questionText)
+
+             qq = state[deckName].questions
+             keys = Object.keys(qq)
+             console.log('the keys are : ' , keys)
+             newa = []
+            keys.map((key) => {
+                if (qq[key].question === questionText){
+                    qq[key].answered = answer
+                }
+                newa.push(qq[key])
+            })
+            newa.push(question)
+            console.log('the new questions ', newa)
+            return {
+                ...state,
+                [deckName]: {
+                    title: [deckName],
+                    questions: {
+                        ...newa
+                    }
+                }
+
+            }
         default:
             return state
     }
-    // switch(action.type){
+    
 
 
 
-    //     // case TOGGLE_ANSWER:
-
-    //     default:
-    //         return state
-    // }
 }
 
 export default decks
