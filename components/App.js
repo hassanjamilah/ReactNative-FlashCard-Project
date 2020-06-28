@@ -6,6 +6,9 @@ import { Provider } from 'react-redux'
 import reducer from '../reducers'
 import { saveDeck, removeAllDecks, getAllDecks, getDeck, saveQuestion, saveQuestionAnswer, ANSWER_CORRECT, ANSWER_WRONG } from '../api/api'
 import Deck from '../components/Deck'
+import DeckDetails from '../components/DeckDetails'
+
+
 
 export default class App extends React.Component {
 
@@ -37,8 +40,9 @@ export default class App extends React.Component {
           ))
         } */}
           <StatusBar style="auto" />
-        <Deck/>
-
+        
+          {/* <Deck/> */}
+          <DeckDetails/>
         </View>
         </Provider>
     );
