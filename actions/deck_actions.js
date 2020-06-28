@@ -1,49 +1,17 @@
-import {AsyncStorage} from 'react-native'
+export const ADD_DECK='ADD_DECK'
+export const RECEIVE_DECKS='RECEIVE_DECKS'
 
-
-//The answer type that is passed to the function SaveQeustionAnswer
-export const ANSWER_CORRECT='correct'
-export const ANSWER_WRONG='wrong'
-
-const STORAGE_KEY='FlashCardsMobile'
-
-
-export function saveQuestion (questionText, questionAnswer, deckID){
-
-}
-
-export function saveQuestionAnswer(questionID, answer){
-
-}
-
-export function saveDeck(deckName){
-    return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({
-        [deckName]:deckName
-    }))
-}
-
-export function getAllDecks(){
-    return AsyncStorage.getItem(STORAGE_KEY)
-    
-}
-
-export function getDeck(deckID){
-
-}
-
-
-
-//Helper functions 
-function formatDeckResult (results){
+export function addDeck(deckTitle){
     return {
-       
-
-    }
-
+        type:ADD_DECK,
+        deckTitle
     }
 }
 
-//Used to genereat new id depending on the current timestamp
-function getID (){
-    return new Date().valueOf()
+export function receiveDecks(decks){
+    console.log('Dock received')
+    return {
+        type:RECEIVE_DECKS,
+        decks
+    }
 }
