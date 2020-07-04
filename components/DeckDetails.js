@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 class DeckDetails extends React.Component {
     render() {
-        console.log('The state in deck details', this.props.state)
+        console.log('The state in details details', this.props.state)
         return (
             <View style={styles.container}>
                 <View>

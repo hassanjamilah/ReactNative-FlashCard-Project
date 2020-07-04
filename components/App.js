@@ -7,6 +7,10 @@ import reducer from '../reducers'
 import { saveDeck, removeAllDecks, getAllDecks, getDeck, saveQuestion, saveQuestionAnswer, ANSWER_CORRECT, ANSWER_WRONG } from '../api/api'
 import Deck from '../components/Deck'
 import DeckDetails from '../components/DeckDetails'
+import QuestionDetails from '../components/QuestionDetails'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+
 
 
 
@@ -15,6 +19,7 @@ export default class App extends React.Component {
 
 
   render() {
+    const Stack = createStackNavigator()
     //saveQuestionAnswer('q3',ANSWER_WRONG,'hassan47')
 
     //saveQuestion('q7','a7','hassan47')
@@ -30,21 +35,16 @@ export default class App extends React.Component {
     //saveDeck('hassan47')  
     //removeAllDecks();saveDeck('hassan47')
     getAllDecks().then((data) => { console.log('all data: ', data) })
-    
+
     return (
-      <Provider store= {createStore(reducer)}>
-        <View style={styles.container}>
-          {/* {
-          keys.map((key)=>(
-            <Text></Text>
-          ))
-        } */}
-          <StatusBar style="auto" />
-        
-          {/* <Deck/> */}
-          <DeckDetails/>
-        </View>
-        </Provider>
+      <Provider store={createStore(reducer)}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='deck'>
+            <Stack.Screen name='deck' component={Deck} options={{ title: 'Deck' }}/>
+            <Stack.Screen name='qDetails' component={QuestionDetails} options={{title: 'Details'}}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     );
   }
 }
