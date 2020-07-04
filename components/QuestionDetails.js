@@ -11,8 +11,10 @@ class QuestionDetails extends React.Component {
 
     state = {
         showAnswer: false,
-        currentQuestion: 1,
+        currentQuestion: 0,
     }
+    questions = []
+    keys = []
 
     //Custom Components
     ShowAnswerButton = () => {
@@ -29,19 +31,7 @@ class QuestionDetails extends React.Component {
 
 
 
-    //todo delete this code
-    componentDidMount() {
-        API.getAllDecks()
-            .then((data) => {
 
-
-                this.props.dispatch(receiveDecks(data))
-
-                // this.props.dispatch(addDeck('New Deck1'))
-                //  //this.props.dispatch(addQuestion('q105', 'a106', 'hassan47'))
-                //  this.props.dispatch(toggleAnswer('q1', 'correct', 'hassan47'))
-            })
-    }
 
   
 
@@ -56,10 +46,16 @@ class QuestionDetails extends React.Component {
 
 
     handleSumbit = (answer) => {
+        const {currentQuestion} = this.state
+        if (currentQuestion >= this.keys.length-1){ return }
+
+        this.setState(()=>({
+            currentQuestion:currentQuestion+1
+        }))
 
     }
 
-    render() {
+    componentWillMount(){
         const {key} = this.props.route.params 
         const {currentQuestion} = this.state
         console.log('THE properties', key)
@@ -69,6 +65,19 @@ class QuestionDetails extends React.Component {
         console.log('THE keys is: ' ,questionsKeys )
         const question = questions[questionsKeys[0]].question
         const answer = questions[questionsKeys[0]].answer
+        this.questions = questions
+        this.keys = questionsKeys
+    }
+    render() {
+        var question , answer, index
+        
+        if (this.state.currentQuestion < this.keys.length){
+             index = this.state.currentQuestion
+        }else {
+            index = this.keys.length - 1
+        }
+        question = this.questions[this.keys[index]].question
+        answer = this.questions[this.keys[index]].answer
 
         if (this.state.showAnswer === true) {
             return (
@@ -80,8 +89,8 @@ class QuestionDetails extends React.Component {
         }
         return (
             <View style={styles.conatiner}>
-                <Text style={styles.topCornerTest}>{currentQuestion} / 2</Text>
-                <Text>{question}</Text>
+                <Text style={styles.topCornerTest}>{this.state.currentQuestion+1} / {this.keys.length}</Text>
+                <Text style={styles.questionText}>{question}</Text>
                 <this.ShowAnswerButton/>
                 <View style={styles.submitView}>
                     <TouchableOpacity onPress={this.handleSumbit} 
@@ -101,6 +110,7 @@ class QuestionDetails extends React.Component {
 }
 
 function mapStateToProps(state) {
+    
     return {
         state,
 
@@ -143,7 +153,17 @@ const styles = StyleSheet.create({
         fontSize:24,
         fontWeight:"600",
 
+    },
+    questionText:{
+        color:'black',
+        fontWeight:"400",
+        fontSize:36,
+        textAlign:'center',
+        margin:10,
+        marginBottom:50,
+
     }
+
 })
 
 export default connect(mapStateToProps)(QuestionDetails)
