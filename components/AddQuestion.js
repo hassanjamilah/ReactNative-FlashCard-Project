@@ -43,7 +43,7 @@ class AddQuestion extends React.Component {
         const {qText, aText} = this.state
         console.log('🍊 ' , key)
         this.props.dispatch(addQuestion(qText ,aText, key))
-        API.addQuestion(qText, aText, key)
+        API.saveQuestion(qText, aText, key)
        this.props.navigation.goBack()
     }
 

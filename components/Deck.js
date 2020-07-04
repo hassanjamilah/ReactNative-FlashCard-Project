@@ -30,8 +30,10 @@ class Deck extends React.Component {
         switch (a){
             case 'question':
                 this.props.navigation.navigate('AddQeustion',{key:key})
+                return
             case 'deck':
                 this.props.navigation.navigate('AddDeck')
+                return 
             default:
 
         }

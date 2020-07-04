@@ -20,6 +20,8 @@ class AddDeck extends React.Component{
 
     handleSubmit = () => {
         this.props.dispatch(addDeck(this.state.deckText))
+        API.saveDeck(this.state.deckText)
+        this.props.navigation.goBack()
     }
 
     render(){
