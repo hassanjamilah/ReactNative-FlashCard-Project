@@ -10,6 +10,8 @@ import DeckDetails from '../components/DeckDetails'
 import QuestionDetails from '../components/QuestionDetails'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import AddDeck from '../components/AddDeck'
+import AddQuestion from '../components/AddQuestion'
 
 
 
@@ -42,6 +44,8 @@ export default class App extends React.Component {
           <Stack.Navigator initialRouteName='deck'>
             <Stack.Screen name='deck' component={Deck} options={{ title: 'Deck' }}/>
             <Stack.Screen name='qDetails' component={QuestionDetails} options={{title: 'Details'}}/>
+            <Stack.Screen name='AddQeustion' component={AddQuestion} options={{title:'Add Question'}}/>
+            <Stack.Screen name='AddDeck' component={AddDeck} options={{title:'Add Deck'}}/>
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

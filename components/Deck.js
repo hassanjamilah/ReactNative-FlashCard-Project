@@ -24,6 +24,18 @@ class Deck extends React.Component {
 
         this.props.navigation.navigate('qDetails', { key: key })
     }
+
+    handleAddPress = (a,key)=>{
+        
+        switch (a){
+            case 'question':
+                this.props.navigation.navigate('AddQeustion',{key:key})
+            case 'deck':
+                this.props.navigation.navigate('AddDeck')
+            default:
+
+        }
+    }
     render() {
         console.log('state in Deck:', this.props.state)
         const keys = Object.keys(this.props.state)
@@ -34,16 +46,37 @@ class Deck extends React.Component {
                 {
 
                     keys.map((key) => (
+                       
                         <TouchableOpacity onPress={() => this.handlePress(key)}>
 
                             <View style={styles.deckCard}>
-                                <Text style={styles.DeckCardTitleText}>{this.props.state[key].title}</Text>
-                                <Text style={styles.DeckCardSubTitleText}>{(Object.keys(this.props.state[key].questions)).length} Cards</Text>
-
+                                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                                <View>
+                                    <Text style={styles.DeckCardTitleText}>{this.props.state[key].title}</Text>
+                                    <Text style={styles.DeckCardSubTitleText}>{(Object.keys(this.props.state[key].questions)).length} Cards</Text>
+                                </View>
+                                <TouchableOpacity 
+                                    onPress={()=>this.handleAddPress('question',key)} 
+                                    style={{marginLeft:100}}>
+                                    <Text 
+                                        
+                                        style={{fontSize:18,color:'blue'}}>
+                                        Add Quesion
+                                    </Text>
+                                </TouchableOpacity>
+                                </View>
+                               
                             </View>
                         </TouchableOpacity>
+                        
+                     
                     ))
                 }
+                <TouchableOpacity 
+                    onPress={()=>this.handleAddPress('deck')} 
+                    style={{alignSelf:'center', marginTop:20}}>
+                    <Text style={{fontSize:18,color:'blue'}}>Add Deck</Text>
+                </TouchableOpacity>
             </View>
         )
     }
