@@ -1,45 +1,41 @@
 import React from 'react'
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions} from 'react-native'
 import {connect} from 'react-redux'
-
+import * as API from '../api/api'
+import { addDeck } from '../actions/deck_actions'
 class AddDeck extends React.Component{
-    //TODO: REMOVE THIS CODE
-    componentDidMount() {
-        API.getAllDecks()
-            .then((data) => {
 
-
-                this.props.dispatch(receiveDecks(data))
-
-                // this.props.dispatch(addDeck('New Deck1'))
-                //  //this.props.dispatch(addQuestion('q105', 'a106', 'hassan47'))
-                //  this.props.dispatch(toggleAnswer('q1', 'correct', 'hassan47'))
-            })
-    }
     
     state = {
         deckText:'',
     }
 
 
-    handleChange = (e) => { 
-        this.setState(()=>{
-            deckText:e.target.value
-        })
+    handleChange = (text) => { 
+        
+        this.setState(()=>({
+            deckText:text
+        }))
     }
 
     handleSubmit = () => {
-        
+        this.props.dispatch(addDeck(this.state.deckText))
     }
 
     render(){
+        const disabled = this.state.deckText === ''
+        console.log('disabled: ' , disabled)
         return(
             <View>
-                <Text>
-                    Add Deck
-                </Text>
-                <TextInput value={this.state.deckText} onChange={this.handleChange}></TextInput>
-                <TouchableOpacity>Submit</TouchableOpacity>
+            
+                <TextInput value={this.state.deckText} style={styles.TextEdit} onChangeText={(text)=>this.handleChange(text)}></TextInput>
+                <TouchableOpacity 
+                    style={disabled ? styles.buttonDisabled : styles.button} 
+                    disabled={disabled}
+                    onPress={this.handleSubmit}
+                    >
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
             </View>
         )
     }

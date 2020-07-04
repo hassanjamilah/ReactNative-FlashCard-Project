@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { addQuestion } from '../actions/question_actions'
-import {Constants} from 'expo'
+import * as API from '../api/api'
 
 class AddQuestion extends React.Component {
     state = {
@@ -43,6 +43,7 @@ class AddQuestion extends React.Component {
         const {qText, aText} = this.state
         console.log('🍊 ' , key)
         this.props.dispatch(addQuestion(qText ,aText, key))
+        API.addQuestion(qText, aText, key)
        this.props.navigation.goBack()
     }
 
