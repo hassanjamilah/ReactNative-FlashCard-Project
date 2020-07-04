@@ -12,30 +12,18 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import AddDeck from '../components/AddDeck'
 import AddQuestion from '../components/AddQuestion'
-
+import {setLocalNotification} from '../utils/helper'
 
 
 
 export default class App extends React.Component {
 
-
+  componentDidMount(){
+    setLocalNotification()
+  }
 
   render() {
     const Stack = createStackNavigator()
-    //saveQuestionAnswer('q3',ANSWER_WRONG,'hassan47')
-
-    //saveQuestion('q7','a7','hassan47')
-    //saveQuestion('q1','a1','hassan47')
-    //saveQuestion('q3','a3','hassan47')
-
-
-    //saveQuestion('q7','a7','hassan47')
-
-
-    //getDeck('hassan45').then((data)=>console.log(data))
-
-    //saveDeck('hassan47')  
-    //removeAllDecks();saveDeck('hassan47')
     getAllDecks().then((data) => { console.log('all data: ', data) })
 
     return (
