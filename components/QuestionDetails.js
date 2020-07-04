@@ -12,12 +12,16 @@ class QuestionDetails extends React.Component {
     state = {
         showAnswer: false,
         currentQuestion: 0,
+        finishedAllQuestions:false,
     }
     questions = []
     keys = []
     deckName = ''
 
-    //Custom Components
+    /*
+        Custom Components
+    */
+   //The Show answer button
     ShowAnswerButton = () => {
         return (
             <TouchableOpacity 
@@ -29,6 +33,33 @@ class QuestionDetails extends React.Component {
             </TouchableOpacity>
         )
     }
+    
+    // The statistics page
+    ShowStatistics = () => {
+        this.refreshQeustion()
+        var correctNum = 0 ; 
+        var wrongNum = 0;
+        this.keys.map((k)=>{
+            const answer = this.questions[k].answered;
+            answer === 'correct' ? correctNum++ : wrongNum++
+        })
+        console.log('🍗 ' + correctNum + ' ' + wrongNum)
+        return (
+            <View style={styles.statisticsContainer}>
+                <Text style={styles.statisticsText}>
+                    Total Qeustions: {this.keys.length}
+                </Text>
+                <Text style={[styles.statisticsText, {color: 'green'}]}>
+                    Correct Answers: {correctNum}
+                </Text>
+                <Text style={[styles.statisticsText, {color: 'red'}]}>
+                    Wrong Answers: {wrongNum}
+                </Text>
+            </View>
+        )
+    }
+
+
 
     //Handle buttons actions
 
@@ -47,9 +78,14 @@ class QuestionDetails extends React.Component {
 
         const questionText = this.questions[this.keys[currentQuestion]].question
         this.props.dispatch(toggleAnswer(questionText, answer, this.deckName))
+        API.saveQuestionAnswer(questionText, answer, this.deckName)
         
-        
-        if (currentQuestion >= this.keys.length-1){ return }
+        if (currentQuestion >= this.keys.length-1){ 
+            this.setState(()=>({
+                finishedAllQuestions:true
+            }))
+            return 
+        }
         this.setState(()=>({
             currentQuestion:currentQuestion+1
         }))
@@ -58,6 +94,10 @@ class QuestionDetails extends React.Component {
 
     //Prepare the questions and answers array
     componentWillMount(){
+        this.refreshQeustion()
+    }
+
+    refreshQeustion = () => {
         const {key} = this.props.route.params 
         console.log('THE properties', key)
         const questions = this.props.state[key].questions
@@ -67,13 +107,26 @@ class QuestionDetails extends React.Component {
         this.questions = questions
         this.keys = questionsKeys
         this.deckName = key
-        
     }
+
+
 
 
     render() {
         var question , answer, index
         
+        if (this.keys.length == 0 ){
+            return (
+                
+                    <View>
+                        <Text style={styles.questionText}>
+                            No questions in this deck
+                        </Text>
+                    </View>
+                
+            )
+        }
+
         if (this.state.currentQuestion < this.keys.length){
              index = this.state.currentQuestion
         }else {
@@ -82,6 +135,7 @@ class QuestionDetails extends React.Component {
         question = this.questions[this.keys[index]].question
         answer = this.questions[this.keys[index]].answer
 
+        //Show the answer or the questions
         if (this.state.showAnswer === true) {
             return (
                 <View>
@@ -90,6 +144,16 @@ class QuestionDetails extends React.Component {
                 </View>
             )
         }
+
+        //Show the statistics
+        if (this.state.finishedAllQuestions === true){
+            return (
+                <View>
+                    <this.ShowStatistics/>
+                </View>
+            )
+        }
+
         return (
             <View style={styles.conatiner}>
                 <Text style={styles.topCornerTest}>{this.state.currentQuestion+1} / {this.keys.length}</Text>
@@ -167,6 +231,16 @@ const styles = StyleSheet.create({
         margin:10,
         marginBottom:50,
 
+    },
+    statisticsContainer:{
+        marginTop: 50,
+        alignItems:'center'
+
+    },
+    statisticsText:{
+        fontSize: 32,
+        fontWeight: '400',
+        margin: 10
     }
 
 })
