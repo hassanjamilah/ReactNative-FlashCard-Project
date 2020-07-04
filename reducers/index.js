@@ -56,16 +56,18 @@ function decks(state = {}, action) {
 
              qq = state[deckName].questions
              keys = Object.keys(qq)
-             console.log('the keys are : ' , keys)
+             console.log('🍑 the keys are : ' , keys)
              newa = []
+             var i = 0 ;
+             console.log('🏆🏚 the old  questions ', qq)
             keys.map((key) => {
                 if (qq[key].question === questionText){
                     qq[key].answered = answer
                 }
                 newa.push(qq[key])
+                console.log('⌚️ ' + i++)
             })
-            newa.push(question)
-            console.log('the new questions ', newa)
+            console.log('🏆 the new questions ', newa)
             return {
                 ...state,
                 [deckName]: {

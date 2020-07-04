@@ -2,9 +2,9 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { toggleAnswer } from '../actions/question_actions'
-import { ANSWER_CORRECT, answwer } from '../api/api'
+import { ANSWER_CORRECT, ANSWER_WRONG, answwer } from '../api/api'
 import * as API from '../api/api'
-import { receiveDecks } from '../actions/deck_actions'
+
 
 
 class QuestionDetails extends React.Component {
@@ -15,6 +15,7 @@ class QuestionDetails extends React.Component {
     }
     questions = []
     keys = []
+    deckName = ''
 
     //Custom Components
     ShowAnswerButton = () => {
@@ -29,12 +30,9 @@ class QuestionDetails extends React.Component {
         )
     }
 
+    //Handle buttons actions
 
-
-
-
-  
-
+    //Handle show answer button action 
     handleShowAnswer = () => {
         this.setState((state) => {
             return {
@@ -43,31 +41,36 @@ class QuestionDetails extends React.Component {
         })
     }
 
-
-
+    //Handle toggle answer buttons action
     handleSumbit = (answer) => {
         const {currentQuestion} = this.state
-        if (currentQuestion >= this.keys.length-1){ return }
 
+        const questionText = this.questions[this.keys[currentQuestion]].question
+        this.props.dispatch(toggleAnswer(questionText, answer, this.deckName))
+        
+        
+        if (currentQuestion >= this.keys.length-1){ return }
         this.setState(()=>({
             currentQuestion:currentQuestion+1
         }))
 
     }
 
+    //Prepare the questions and answers array
     componentWillMount(){
         const {key} = this.props.route.params 
-        const {currentQuestion} = this.state
         console.log('THE properties', key)
         const questions = this.props.state[key].questions
         const questionsKeys = Object.keys(questions)
         console.log('THE state is: ' ,questions )
         console.log('THE keys is: ' ,questionsKeys )
-        const question = questions[questionsKeys[0]].question
-        const answer = questions[questionsKeys[0]].answer
         this.questions = questions
         this.keys = questionsKeys
+        this.deckName = key
+        
     }
+
+
     render() {
         var question , answer, index
         
@@ -93,14 +96,16 @@ class QuestionDetails extends React.Component {
                 <Text style={styles.questionText}>{question}</Text>
                 <this.ShowAnswerButton/>
                 <View style={styles.submitView}>
-                    <TouchableOpacity onPress={this.handleSumbit} 
+                    <TouchableOpacity 
+                        onPress={()=>this.handleSumbit(`${ANSWER_CORRECT}`)} 
                         style={[styles.submitButton , {backgroundColor:'green'}]}>
-                        <Text>Correct</Text>
+                            <Text>Correct</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
-                        onPress={this.handleSumbit}
+                        value = {ANSWER_WRONG}
+                        onPress={()=>this.handleSumbit(`${ANSWER_WRONG}`)} 
                         style={[styles.submitButton , {backgroundColor:'red'}]}>
-                        <Text>Wrong</Text>
+                            <Text>Wrong</Text>
                     </TouchableOpacity>
                 </View>
             </View>
